@@ -106,7 +106,8 @@ const companies = [
 
 const state = {
   filter: "all",
-  query: ""
+  query: "",
+  calendarEvents: []
 };
 
 const flowBody = document.querySelector("#flowBody");
@@ -241,7 +242,7 @@ function renderCommandBoard() {
   const visible = filteredCompanies();
   const top = [...visible].sort((a, b) => a.next.date.localeCompare(b.next.date))[0];
   const risks = visible.filter(companyHasRisk).length;
-  const weekEvents = allEvents().filter((event) => daysUntil(event.date) >= 0 && daysUntil(event.date) <= 7).length;
+  const weekEvents = visible.filter((company) => daysUntil(company.next.date) >= 0 && daysUntil(company.next.date) <= 7).length;
 
   document.querySelector("#topPriorityTitle").textContent = top ? `${top.name} ${top.next.label}` : "-";
   document.querySelector("#topPriorityMeta").textContent = top ? `${formatDate(top.next.date)} ${top.next.time} ・ あと${daysUntil(top.next.date)}日` : "-";
@@ -272,9 +273,7 @@ function renderSelects() {
 }
 
 function allEvents() {
-  return companies.flatMap((company) =>
-    company.events.map((event) => ({ ...event, company: company.name }))
-  ).sort((a, b) => a.date.localeCompare(b.date));
+  return state.calendarEvents.sort((a, b) => a.date.localeCompare(b.date));
 }
 
 function renderCalendar() {
@@ -307,10 +306,10 @@ function renderCalendar() {
           <span class="event-title">${event.title}<br><small>${event.company}</small></span>
         </div>
       `).join("")
-      : `<div class="event-row"><span class="event-date">${formatDate(date)}</span><span class="event-title">予定なし</span></div>`;
+      : `<div class="event-row"><span class="event-date">${formatDate(date)}</span><span class="event-title">予定なし<br><small>サンプル予定は表示しない設定です</small></span></div>`;
   }
 
-  renderEventsForDate("2026-06-14");
+  renderEventsForDate("2026-06-12");
 }
 
 function calculateFit(text, companyName) {
