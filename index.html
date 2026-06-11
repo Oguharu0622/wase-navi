@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101317">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="わせナビ">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>わせナビ</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">W</div>
+        <div>
+          <p class="eyebrow">選考OS</p>
+          <h1>わせナビ</h1>
+        </div>
+      </div>
+      <button class="icon-button" id="shareDeadlines" aria-label="締切だけ共有">↗</button>
+    </header>
+
+    <nav class="tabbar" aria-label="小見出し">
+      <button class="tab active" data-panel="flow">選考フロー</button>
+      <button class="tab" data-panel="calendar">カレンダー</button>
+      <button class="tab" data-panel="company">企業情報</button>
+      <button class="tab" data-panel="essay">ES添削</button>
+      <button class="tab" data-panel="interview">模擬面接</button>
+      <button class="tab" data-panel="research">自動調査</button>
+    </nav>
+
+    <main>
+      <section class="panel active" id="panel-flow" aria-labelledby="flow-title">
+        <div class="panel-head">
+          <div>
+            <h2 id="flow-title">選考フロー一覧</h2>
+            <p>企業ごとのESから内定までを、スプレッドシートのように比較できます。</p>
+          </div>
+          <div class="head-actions">
+            <span class="sync-pill">最終更新 6/12 01:40</span>
+            <button class="ghost-button" id="researchButton">自動調査</button>
+          </div>
+        </div>
+
+        <section class="command-board" aria-label="今日見るべき項目">
+          <article class="priority-callout">
+            <span class="label">最優先</span>
+            <strong id="topPriorityTitle">-</strong>
+            <span id="topPriorityMeta">-</span>
+          </article>
+          <article>
+            <span class="label">リスク</span>
+            <strong id="riskCount">-</strong>
+            <span>要注意・3日以内</span>
+          </article>
+          <article>
+            <span class="label">今週</span>
+            <strong id="weekCount">-</strong>
+            <span>締切・面接・結果予定</span>
+          </article>
+        </section>
+
+        <section class="controls" aria-label="企業の絞り込み">
+          <label class="search-box">
+            <span aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="企業名・業界で検索">
+          </label>
+          <div class="segmented" aria-label="志望度">
+            <button class="segment active" data-filter="all">全て</button>
+            <button class="segment" data-filter="本命">本命</button>
+            <button class="segment" data-filter="準本命">準本命</button>
+            <button class="segment" data-filter="練習">練習</button>
+          </div>
+        </section>
+
+        <div class="matrix-shell" aria-label="選考フロー表">
+          <table class="flow-matrix">
+            <thead>
+              <tr>
+                <th class="sticky-col">企業</th>
+                <th>次の締切</th>
+                <th>ES</th>
+                <th>Webテスト</th>
+                <th>1次面接</th>
+                <th>最終面接</th>
+                <th>内定</th>
+                <th>通知</th>
+                <th>共有</th>
+              </tr>
+            </thead>
+            <tbody id="flowBody"></tbody>
+          </table>
+        </div>
+
+        <section class="legend" aria-label="凡例">
+          <span><b class="dot done"></b>完了</span>
+          <span><b class="dot current"></b>対応中</span>
+          <span><b class="dot waiting"></b>予定</span>
+          <span><b class="dot danger"></b>要注意</span>
+        </section>
+      </section>
+
+      <section class="panel" id="panel-calendar" aria-labelledby="calendar-title">
+        <div class="panel-head">
+          <div>
+            <h2 id="calendar-title">カレンダー</h2>
+            <p>ES締切、Webテスト期限、面接日、説明会、合否予定日をまとめて確認。</p>
+          </div>
+          <button class="ghost-button" id="todayButton">今日</button>
+        </div>
+        <div class="calendar-strip" id="calendarStrip"></div>
+        <div class="event-list" id="eventList"></div>
+      </section>
+
+      <section class="panel" id="panel-company" aria-labelledby="company-title">
+        <div class="panel-head">
+          <div>
+            <h2 id="company-title">企業情報</h2>
+            <p>給与、勤務地、職種、採用人数を比較できます。</p>
+          </div>
+        </div>
+        <div class="matrix-shell">
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th class="sticky-col">企業</th>
+                <th>業界</th>
+                <th>志望度</th>
+                <th>職種</th>
+                <th>給与</th>
+                <th>勤務地</th>
+                <th>採用人数</th>
+              </tr>
+            </thead>
+            <tbody id="companyBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-essay" aria-labelledby="essay-title">
+        <div class="panel-head">
+          <div>
+            <h2 id="essay-title">ES添削</h2>
+            <p>企業との一致度を見ます。ES本文は友人共有しません。</p>
+          </div>
+          <span class="score-pill" id="fitScore">72</span>
+        </div>
+        <label class="field">
+          <span>企業</span>
+          <select id="feedbackCompany"></select>
+        </label>
+        <label class="field">
+          <span>ES本文</span>
+          <textarea id="essayInput" rows="7" placeholder="ES本文を入力">学生団体で新歓企画の参加率を改善しました。課題を分解し、参加者アンケートとSNS導線を見直した結果、参加率を高めることができました。</textarea>
+        </label>
+        <button class="primary-button" id="feedbackButton">一致度を見る</button>
+        <div class="feedback-box" id="feedbackBox">
+          <p><strong>企業との一致度:</strong> 課題分解と改善行動はコンサル職と相性が良いです。</p>
+          <p><strong>直すと強い点:</strong> 数字、役割、再現性を足すと説得力が上がります。</p>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-interview" aria-labelledby="interview-title">
+        <div class="panel-head">
+          <div>
+            <h2 id="interview-title">Gemini模擬面接</h2>
+            <p>通常面接とケース面接を、企業・選考段階に合わせて練習。</p>
+          </div>
+          <span class="status-pill" id="geminiStatus">未接続</span>
+        </div>
+        <label class="field">
+          <span>APIキー</span>
+          <input id="geminiKey" type="password" placeholder="Gemini APIキー">
+        </label>
+        <label class="field">
+          <span>モード</span>
+          <select id="interviewMode">
+            <option>通常面接</option>
+            <option>ケース面接</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>企業</span>
+          <select id="interviewCompany"></select>
+        </label>
+        <button class="primary-button" id="startInterview">質問を生成</button>
+        <div class="chat-panel" id="chatPanel">
+          <p>APIキー未入力でも、練習用の質問を表示できます。</p>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research" aria-labelledby="research-title">
+        <div class="panel-head">
+          <div>
+            <h2 id="research-title">自動調査</h2>
+            <p>企業名をもとに検索し、根拠URLつきで選考フロー候補を作ります。</p>
+          </div>
+        </div>
+        <div class="research-console">
+          <label class="field">
+            <span>調査する企業</span>
+            <input id="researchCompanyInput" type="text" value="アクセンチュア" placeholder="例: アクセンチュア">
+          </label>
+          <label class="field">
+            <span>対象</span>
+            <select id="researchTarget">
+              <option>新卒採用 選考フロー 締切</option>
+              <option>外資コンサル 選考フロー ケース面接</option>
+              <option>ES締切 Webテスト 面接日程</option>
+            </select>
+          </label>
+          <button class="primary-button" id="runResearchButton">自動調査を実行</button>
+          <div class="setup-box">
+            <strong>現在の状態</strong>
+            <p>この画面だけではWeb検索できません。公開時にサーバー側APIへ検索キーとGeminiキーを設定すると動きます。</p>
+          </div>
+        </div>
+        <div class="research-status" id="researchStatus">バックエンド未接続</div>
+        <div class="research-output" id="researchOutput">
+          <table class="result-table">
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>抽出結果</th>
+                <th>根拠</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ES</td>
+                <td>API接続後に自動抽出</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Webテスト</td>
+                <td>API接続後に自動抽出</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>面接</td>
+                <td>API接続後に自動抽出</td>
+                <td>-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="research-flow">
+          <div><span>1</span>企業名を登録</div>
+          <div><span>2</span>検索APIで採用ページ・就活サイトを収集</div>
+          <div><span>3</span>GeminiでES/Webテスト/面接/内定までの流れを抽出</div>
+          <div><span>4</span>締切、根拠URL、更新日を表に保存</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

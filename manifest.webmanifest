@@ -1,0 +1,19 @@
+{
+  "name": "わせナビ",
+  "short_name": "わせナビ",
+  "description": "企業ごとの選考フロー、締切、ES、模擬面接を管理する就活アプリ",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f5f7",
+  "theme_color": "#101317",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

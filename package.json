@@ -1,0 +1,10 @@
+{
+  "name": "wase-navi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "企業ごとの選考フロー、締切、ES、模擬面接を管理する就活PWA",
+  "scripts": {
+    "dev": "vercel dev",
+    "check": "node --check app.js && node --check service-worker.js && node --check api/research-company.js"
+  }
+}
