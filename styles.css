@@ -147,6 +147,10 @@ p {
   border-color: var(--primary);
 }
 
+.primary-button.compact {
+  margin-top: 0;
+}
+
 .tabbar {
   position: sticky;
   top: 67px;
@@ -278,6 +282,26 @@ main {
 .controls {
   display: grid;
   gap: 10px;
+}
+
+.add-company-panel {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.field-row.three {
+  grid-template-columns: 0.85fr 1fr 1fr;
 }
 
 .search-box {
@@ -705,6 +729,25 @@ tbody tr:hover .deadline-cell {
   text-decoration: none;
 }
 
+.danger-button {
+  min-height: 34px;
+  border: 1px solid #f0c4c8;
+  border-radius: 8px;
+  background: #fff3f4;
+  color: var(--danger);
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.empty-cell {
+  height: 92px;
+  color: var(--muted);
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 800;
+}
+
 .research-flow div {
   display: flex;
   align-items: center;
@@ -756,5 +799,10 @@ tbody tr:hover .deadline-cell {
 
   .command-board article {
     min-height: 76px;
+  }
+
+  .field-row,
+  .field-row.three {
+    grid-template-columns: 1fr;
   }
 }

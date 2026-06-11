@@ -1,108 +1,7 @@
 const steps = ["ES", "Webテスト", "1次面接", "最終面接", "内定"];
+const storageKey = "waseNaviCompanies";
 
-const companies = [
-  {
-    name: "アクセンチュア",
-    industry: "外資コンサル",
-    priority: "本命",
-    next: { label: "ES締切", date: "2026-06-14", time: "23:59" },
-    stages: {
-      ES: { status: "対応中", date: "2026-06-14", note: "提出前" },
-      Webテスト: { status: "予定", date: "2026-06-17", note: "締切3日前通知" },
-      "1次面接": { status: "未定", date: "", note: "ES通過後" },
-      最終面接: { status: "未定", date: "", note: "" },
-      内定: { status: "未定", date: "", note: "" }
-    },
-    events: [
-      { type: "ES締切", date: "2026-06-14", title: "アクセンチュア ES締切" },
-      { type: "Webテスト期限", date: "2026-06-17", title: "アクセンチュア Webテスト" },
-      { type: "合否予定日", date: "2026-06-21", title: "ES結果予定" }
-    ],
-    info: { salary: "初任給目安 430万円前後", location: "東京・関西ほか", role: "ビジネスコンサルタント", hiring: "大規模採用" },
-    share: "締切のみ",
-    privateMemo: "ケース対策を厚めにする"
-  },
-  {
-    name: "デロイト トーマツ コンサルティング",
-    industry: "外資コンサル",
-    priority: "本命",
-    next: { label: "Webテスト期限", date: "2026-06-15", time: "12:00" },
-    stages: {
-      ES: { status: "完了", date: "2026-06-10", note: "提出済" },
-      Webテスト: { status: "要注意", date: "2026-06-15", note: "未完了" },
-      "1次面接": { status: "予定", date: "2026-06-24", note: "オンライン" },
-      最終面接: { status: "未定", date: "", note: "" },
-      内定: { status: "未定", date: "", note: "" }
-    },
-    events: [
-      { type: "Webテスト期限", date: "2026-06-15", title: "DTC Webテスト期限" },
-      { type: "1次面接", date: "2026-06-24", title: "DTC 1次面接" }
-    ],
-    info: { salary: "初任給目安 430万円前後", location: "東京中心", role: "経営コンサルタント", hiring: "採用人数非公開" },
-    share: "締切のみ",
-    privateMemo: "Webテスト未完了"
-  },
-  {
-    name: "三菱商事",
-    industry: "総合商社",
-    priority: "準本命",
-    next: { label: "1次面接", date: "2026-06-18", time: "10:30" },
-    stages: {
-      ES: { status: "完了", date: "2026-06-03", note: "通過" },
-      Webテスト: { status: "完了", date: "2026-06-07", note: "通過" },
-      "1次面接": { status: "対応中", date: "2026-06-18", note: "対面" },
-      最終面接: { status: "予定", date: "未定", note: "1次通過後" },
-      内定: { status: "未定", date: "", note: "" }
-    },
-    events: [
-      { type: "1次面接", date: "2026-06-18", title: "三菱商事 1次面接" },
-      { type: "合否予定日", date: "2026-06-23", title: "面接結果予定" }
-    ],
-    info: { salary: "総合職水準", location: "国内・海外", role: "総合職", hiring: "年度により変動" },
-    share: "締切のみ",
-    privateMemo: "海外事業と志望動機を結びつける"
-  },
-  {
-    name: "楽天グループ",
-    industry: "IT・メガベンチャー",
-    priority: "練習",
-    next: { label: "説明会", date: "2026-06-16", time: "18:00" },
-    stages: {
-      ES: { status: "予定", date: "2026-06-20", note: "未着手" },
-      Webテスト: { status: "未定", date: "", note: "" },
-      "1次面接": { status: "未定", date: "", note: "" },
-      最終面接: { status: "未定", date: "", note: "" },
-      内定: { status: "未定", date: "", note: "" }
-    },
-    events: [
-      { type: "説明会", date: "2026-06-16", title: "楽天 説明会" },
-      { type: "ES締切", date: "2026-06-20", title: "楽天 ES締切" }
-    ],
-    info: { salary: "職種別", location: "東京ほか", role: "ビジネス総合職", hiring: "大規模採用" },
-    share: "締切のみ",
-    privateMemo: "英語経験の具体例を入れる"
-  },
-  {
-    name: "PwCコンサルティング",
-    industry: "外資コンサル",
-    priority: "準本命",
-    next: { label: "最終面接", date: "2026-06-19", time: "14:00" },
-    stages: {
-      ES: { status: "完了", date: "2026-05-25", note: "通過" },
-      Webテスト: { status: "完了", date: "2026-05-31", note: "通過" },
-      "1次面接": { status: "完了", date: "2026-06-09", note: "通過" },
-      最終面接: { status: "対応中", date: "2026-06-19", note: "14:00" },
-      内定: { status: "未定", date: "", note: "" }
-    },
-    events: [
-      { type: "最終面接", date: "2026-06-19", title: "PwC 最終面接" },
-      { type: "合否予定日", date: "2026-06-26", title: "最終結果予定" }
-    ],
-    info: { salary: "初任給目安 400万円台", location: "東京・大阪ほか", role: "コンサルタント", hiring: "採用人数非公開" },
-    share: "締切のみ",
-    privateMemo: "カルチャーフィットを確認"
-  }
-];
+let companies = loadCompanies();
 
 const state = {
   filter: "all",
@@ -127,6 +26,24 @@ const researchTarget = document.querySelector("#researchTarget");
 const runResearchButton = document.querySelector("#runResearchButton");
 const researchStatus = document.querySelector("#researchStatus");
 const researchOutput = document.querySelector("#researchOutput");
+const addCompanyButton = document.querySelector("#addCompanyButton");
+const newCompanyName = document.querySelector("#newCompanyName");
+const newCompanyIndustry = document.querySelector("#newCompanyIndustry");
+const newCompanyPriority = document.querySelector("#newCompanyPriority");
+const newCompanyNextLabel = document.querySelector("#newCompanyNextLabel");
+const newCompanyDate = document.querySelector("#newCompanyDate");
+
+function loadCompanies() {
+  try {
+    return JSON.parse(localStorage.getItem(storageKey)) || [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveCompanies() {
+  localStorage.setItem(storageKey, JSON.stringify(companies));
+}
 
 function makeDate(dateText) {
   const [year, month, day] = dateText.split("-").map(Number);
@@ -147,7 +64,8 @@ function formatDate(dateText) {
 }
 
 function daysUntil(dateText) {
-  const today = makeDate("2026-06-12");
+  if (!dateText || dateText === "未定") return 999;
+  const today = makeDate(toLocalISO(new Date()));
   const target = makeDate(dateText);
   return Math.ceil((target - today) / 86400000);
 }
@@ -168,11 +86,28 @@ function statusClass(status) {
   }[status] || "blank";
 }
 
+function blankStages(nextLabel, nextDate) {
+  const stages = {};
+  steps.forEach((step) => {
+    stages[step] = { status: "未定", date: "", note: "" };
+  });
+
+  const matchingStep = steps.includes(nextLabel) ? nextLabel : nextLabel.includes("Web") ? "Webテスト" : nextLabel.includes("面接") ? nextLabel : "ES";
+  if (stages[matchingStep]) {
+    stages[matchingStep] = {
+      status: nextDate ? "対応中" : "予定",
+      date: nextDate || "",
+      note: nextLabel
+    };
+  }
+  return stages;
+}
+
 function renderProgressDots(company) {
   return `
     <span class="progress-dots" aria-label="進捗">
       ${steps.map((step) => {
-        const klass = statusClass(company.stages[step].status);
+        const klass = statusClass(company.stages[step]?.status);
         return `<span class="${klass === "blank" || klass === "waiting" ? "" : klass}"></span>`;
       }).join("")}
     </span>
@@ -180,7 +115,7 @@ function renderProgressDots(company) {
 }
 
 function companyHasRisk(company) {
-  return steps.some((step) => company.stages[step].status === "要注意") || daysUntil(company.next.date) <= 3;
+  return steps.some((step) => company.stages[step]?.status === "要注意") || daysUntil(company.next.date) <= 3;
 }
 
 function filteredCompanies() {
@@ -191,12 +126,17 @@ function filteredCompanies() {
   });
 }
 
+function emptyRow(colspan, text) {
+  return `<tr><td colspan="${colspan}" class="empty-cell">${text}</td></tr>`;
+}
+
 function renderFlowMatrix() {
-  flowBody.innerHTML = filteredCompanies().map((company) => {
+  const visible = filteredCompanies();
+  flowBody.innerHTML = visible.length ? visible.map((company) => {
     const until = daysUntil(company.next.date);
     const rowClass = companyHasRisk(company) ? "risk-row" : "";
     const stepCells = steps.map((step) => {
-      const stage = company.stages[step];
+      const stage = company.stages[step] || { status: "未定", date: "", note: "" };
       const klass = statusClass(stage.status);
       return `
         <td>
@@ -213,14 +153,14 @@ function renderFlowMatrix() {
       <tr class="${rowClass}">
         <td class="sticky-col">
           <span class="company-name">${company.name}</span>
-          <span class="company-sub">${company.industry}</span>
+          <span class="company-sub">${company.industry || "業界未入力"}</span>
           <span class="priority ${priorityClass(company.priority)}">${company.priority}</span>
           ${renderProgressDots(company)}
         </td>
         <td class="deadline-cell">
-          <span class="date-strong">${formatDate(company.next.date)} ${company.next.time}</span>
+          <span class="date-strong">${formatDate(company.next.date)} ${company.next.time || ""}</span>
           <strong>${company.next.label}</strong>
-          <span class="cell-note">あと${until}日</span>
+          <span class="cell-note">${until === 999 ? "日付未定" : `あと${until}日`}</span>
         </td>
         ${stepCells}
         <td>
@@ -232,44 +172,92 @@ function renderFlowMatrix() {
           <strong>${company.share}</strong>
           <span class="cell-note">ES本文・結果・志望度・メモは非共有</span>
         </td>
+        <td>
+          <button class="danger-button" data-delete-company="${company.id}">削除</button>
+        </td>
       </tr>
     `;
-  }).join("");
+  }).join("") : emptyRow(10, "企業はまだありません。上のフォームから追加してください。");
+
   renderCommandBoard();
 }
 
 function renderCommandBoard() {
   const visible = filteredCompanies();
-  const top = [...visible].sort((a, b) => a.next.date.localeCompare(b.next.date))[0];
+  const top = [...visible].filter((company) => company.next.date).sort((a, b) => a.next.date.localeCompare(b.next.date))[0];
   const risks = visible.filter(companyHasRisk).length;
   const weekEvents = visible.filter((company) => daysUntil(company.next.date) >= 0 && daysUntil(company.next.date) <= 7).length;
 
-  document.querySelector("#topPriorityTitle").textContent = top ? `${top.name} ${top.next.label}` : "-";
-  document.querySelector("#topPriorityMeta").textContent = top ? `${formatDate(top.next.date)} ${top.next.time} ・ あと${daysUntil(top.next.date)}日` : "-";
+  document.querySelector("#topPriorityTitle").textContent = top ? `${top.name} ${top.next.label}` : "未登録";
+  document.querySelector("#topPriorityMeta").textContent = top ? `${formatDate(top.next.date)} ${top.next.time || ""} ・ あと${daysUntil(top.next.date)}日` : "企業を追加してください";
   document.querySelector("#riskCount").textContent = `${risks}件`;
   document.querySelector("#weekCount").textContent = `${weekEvents}件`;
 }
 
 function renderCompanyTable() {
-  companyBody.innerHTML = companies.map((company) => `
+  companyBody.innerHTML = companies.length ? companies.map((company) => `
     <tr>
       <td class="sticky-col">
         <span class="company-name">${company.name}</span>
       </td>
-      <td>${company.industry}</td>
+      <td>${company.industry || "-"}</td>
       <td><span class="priority ${priorityClass(company.priority)}">${company.priority}</span></td>
       <td>${company.info.role}</td>
       <td>${company.info.salary}</td>
       <td>${company.info.location}</td>
       <td>${company.info.hiring}</td>
+      <td><button class="danger-button" data-delete-company="${company.id}">削除</button></td>
     </tr>
-  `).join("");
+  `).join("") : emptyRow(8, "企業情報はまだありません。選考フロー画面から企業を追加してください。");
 }
 
 function renderSelects() {
+  const options = companies.map((company) => `<option value="${company.name}">${company.name}</option>`).join("");
   [feedbackCompany, interviewCompany].forEach((select) => {
-    select.innerHTML = companies.map((company) => `<option value="${company.name}">${company.name}</option>`).join("");
+    select.innerHTML = options || `<option value="">企業未登録</option>`;
   });
+}
+
+function renderAll() {
+  renderFlowMatrix();
+  renderCompanyTable();
+  renderSelects();
+  renderCalendar();
+}
+
+function addCompany() {
+  const name = newCompanyName.value.trim();
+  if (!name) {
+    newCompanyName.focus();
+    return;
+  }
+
+  const date = newCompanyDate.value;
+  const company = {
+    id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}`,
+    name,
+    industry: newCompanyIndustry.value.trim(),
+    priority: newCompanyPriority.value,
+    next: { label: newCompanyNextLabel.value, date, time: "" },
+    stages: blankStages(newCompanyNextLabel.value, date),
+    events: [],
+    info: { salary: "-", location: "-", role: "-", hiring: "-" },
+    share: "締切のみ",
+    privateMemo: ""
+  };
+
+  companies = [company, ...companies];
+  saveCompanies();
+  newCompanyName.value = "";
+  newCompanyIndustry.value = "";
+  newCompanyDate.value = "";
+  renderAll();
+}
+
+function deleteCompany(id) {
+  companies = companies.filter((company) => company.id !== id);
+  saveCompanies();
+  renderAll();
 }
 
 function allEvents() {
@@ -279,20 +267,20 @@ function allEvents() {
 function renderCalendar() {
   const calendarStrip = document.querySelector("#calendarStrip");
   const eventList = document.querySelector("#eventList");
-  const base = makeDate("2026-06-12");
-  const labels = ["金", "土", "日", "月", "火", "水", "木"];
+  const base = makeDate(toLocalISO(new Date()));
+  const labels = ["日", "月", "火", "水", "木", "金", "土"];
   calendarStrip.innerHTML = "";
 
-  labels.forEach((label, index) => {
+  for (let index = 0; index < 7; index += 1) {
     const date = new Date(base);
     date.setDate(base.getDate() + index);
     const iso = toLocalISO(date);
     const day = document.createElement("button");
-    day.className = `calendar-day${index === 2 ? " active" : ""}`;
-    day.innerHTML = `<span>${label}</span><strong>${date.getDate()}</strong>`;
+    day.className = `calendar-day${index === 0 ? " active" : ""}`;
+    day.innerHTML = `<span>${labels[date.getDay()]}</span><strong>${date.getDate()}</strong>`;
     day.addEventListener("click", () => renderEventsForDate(iso));
     calendarStrip.appendChild(day);
-  });
+  }
 
   function renderEventsForDate(date) {
     document.querySelectorAll(".calendar-day").forEach((day) => day.classList.remove("active"));
@@ -309,7 +297,7 @@ function renderCalendar() {
       : `<div class="event-row"><span class="event-date">${formatDate(date)}</span><span class="event-title">予定なし<br><small>サンプル予定は表示しない設定です</small></span></div>`;
   }
 
-  renderEventsForDate("2026-06-12");
+  renderEventsForDate(toLocalISO(base));
 }
 
 function calculateFit(text, companyName) {
@@ -324,12 +312,18 @@ function calculateFit(text, companyName) {
 function renderFeedback() {
   const text = document.querySelector("#essayInput").value;
   const companyName = feedbackCompany.value;
-  const score = calculateFit(text, companyName);
   const company = companies.find((item) => item.name === companyName);
+  if (!company) {
+    feedbackBox.innerHTML = `<p><strong>企業未登録:</strong> 先に選考フロー画面で企業を追加してください。</p>`;
+    fitScore.textContent = "-";
+    return;
+  }
+
+  const score = calculateFit(text, companyName);
   const hasNumber = /\d|一|二|三|四|五|六|七|八|九|十/.test(text);
   fitScore.textContent = score;
   feedbackBox.innerHTML = `
-    <p><strong>企業との一致度:</strong> ${company.industry}で見られやすい「課題を見つけて動く力」は伝わっています。</p>
+    <p><strong>企業との一致度:</strong> ${company.industry || "この企業"}で見られやすい「課題を見つけて動く力」は伝わっています。</p>
     <p><strong>直すと強い点:</strong> ${hasNumber ? "数字は入っています。" : "成果を数字で足すと強くなります。"} ${company.name}でどう活きるかを最後の1文に入れると一致度が上がります。</p>
     <p><strong>追加したい観点:</strong> 自分の役割、周囲を巻き込んだ方法、再現できる強み。</p>
   `;
@@ -347,7 +341,12 @@ async function generateInterviewQuestion() {
   const companyName = interviewCompany.value;
   const mode = document.querySelector("#interviewMode").value;
   const company = companies.find((item) => item.name === companyName);
-  const currentStep = steps.find((step) => ["対応中", "要注意"].includes(company.stages[step].status)) || "ES";
+  if (!company) {
+    chatPanel.innerHTML = `<p>先に選考フロー画面で企業を追加してください。</p>`;
+    return;
+  }
+
+  const currentStep = steps.find((step) => ["対応中", "要注意"].includes(company.stages[step]?.status)) || "ES";
   chatPanel.innerHTML = `<p><strong>${companyName}</strong> / ${mode} / 現在の選考: ${currentStep}</p>`;
 
   if (!key) {
@@ -379,11 +378,11 @@ async function generateInterviewQuestion() {
 }
 
 function shareDeadlines() {
-  const text = allEvents()
-    .filter((event) => ["ES締切", "Webテスト期限", "1次面接", "最終面接"].includes(event.type))
-    .map((event) => `${formatDate(event.date)} ${event.type}: ${event.company}`)
+  const text = companies
+    .filter((company) => company.next.date)
+    .map((company) => `${formatDate(company.next.date)} ${company.next.label}: ${company.name}`)
     .join("\n");
-  navigator.clipboard?.writeText(text);
+  navigator.clipboard?.writeText(text || "共有できる締切はまだありません。");
   document.querySelector("#shareDeadlines").setAttribute("aria-label", "締切をコピーしました");
 }
 
@@ -476,24 +475,27 @@ document.querySelectorAll(".segment").forEach((button) => {
   });
 });
 
+document.addEventListener("click", (event) => {
+  const deleteButton = event.target.closest("[data-delete-company]");
+  if (deleteButton) {
+    deleteCompany(deleteButton.dataset.deleteCompany);
+  }
+});
+
 searchInput.addEventListener("input", (event) => {
   state.query = event.target.value;
   renderFlowMatrix();
 });
 
+addCompanyButton.addEventListener("click", addCompany);
 feedbackButton.addEventListener("click", renderFeedback);
 startInterview.addEventListener("click", generateInterviewQuestion);
 runResearchButton.addEventListener("click", runCompanyResearch);
 document.querySelector("#shareDeadlines").addEventListener("click", shareDeadlines);
-document.querySelector("#researchButton").addEventListener("click", () => {
-  switchPanel("research");
-});
+document.querySelector("#researchButton").addEventListener("click", () => switchPanel("research"));
 document.querySelector("#todayButton").addEventListener("click", renderCalendar);
 
-renderSelects();
-renderFlowMatrix();
-renderCompanyTable();
-renderCalendar();
+renderAll();
 
 if ("serviceWorker" in navigator && location.protocol !== "file:") {
   navigator.serviceWorker.register("./service-worker.js");

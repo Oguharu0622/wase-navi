@@ -78,6 +78,45 @@
           </div>
         </section>
 
+        <section class="add-company-panel" aria-label="企業を追加">
+          <div class="field-row">
+            <label class="field">
+              <span>企業名</span>
+              <input id="newCompanyName" type="text" placeholder="例: アクセンチュア">
+            </label>
+            <label class="field">
+              <span>業界</span>
+              <input id="newCompanyIndustry" type="text" placeholder="例: 外資コンサル">
+            </label>
+          </div>
+          <div class="field-row three">
+            <label class="field">
+              <span>志望度</span>
+              <select id="newCompanyPriority">
+                <option>本命</option>
+                <option>準本命</option>
+                <option>練習</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>次の予定</span>
+              <select id="newCompanyNextLabel">
+                <option>ES締切</option>
+                <option>Webテスト期限</option>
+                <option>1次面接</option>
+                <option>最終面接</option>
+                <option>説明会</option>
+                <option>合否予定日</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>日付</span>
+              <input id="newCompanyDate" type="date">
+            </label>
+          </div>
+          <button class="primary-button compact" id="addCompanyButton">企業を追加</button>
+        </section>
+
         <div class="matrix-shell" aria-label="選考フロー表">
           <table class="flow-matrix">
             <thead>
@@ -91,6 +130,7 @@
                 <th>内定</th>
                 <th>通知</th>
                 <th>共有</th>
+                <th>操作</th>
               </tr>
             </thead>
             <tbody id="flowBody"></tbody>
@@ -135,6 +175,7 @@
                 <th>給与</th>
                 <th>勤務地</th>
                 <th>採用人数</th>
+                <th>操作</th>
               </tr>
             </thead>
             <tbody id="companyBody"></tbody>

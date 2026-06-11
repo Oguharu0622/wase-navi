@@ -1,4 +1,4 @@
-const CACHE_NAME = "wase-navi-v2";
+const CACHE_NAME = "wase-navi-v3";
 const ASSETS = [
   "./",
   "./index.html",
